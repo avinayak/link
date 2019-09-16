@@ -6,13 +6,15 @@ export class Chat extends Component {
   constructor() {
     super();
     this.state = {
+      loading:false,
       roomcode: ""
     };
   }
   handleChange = event => {
-    this.setState({ roomcode: event.target.value });
+    this.setState({ roomcode: event.target.value.toUpperCase() });
   };
   handleClick = () => {
+    this.setState({loading:true})
     db.collection("live")
       .doc(this.state.roomcode.toUpperCase())
       .onSnapshot(doc => {
@@ -51,6 +53,8 @@ export class Chat extends Component {
           onChange={this.handleChange}
         />
         <button onClick={this.handleClick}>JOIN</button>
+        <br/>
+        {this.state.loading && "linking..."}
       </div>
     );
   }

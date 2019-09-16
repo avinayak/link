@@ -42,7 +42,7 @@ function App() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            SS Latency Tests
+            Link
           </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>
