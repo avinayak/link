@@ -1,3 +1,8 @@
 body {
   background: #34495e;
 }
+
+.nonlink{
+  text-decoration: none;
+  color: white;
+  }

@@ -8,10 +8,13 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Container from "@material-ui/core/Container";
-import Versus from './Versus';
-
+import Room from "./Room";
+import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import "./App.css";
+import '../node_modules/react-vis/dist/style.css';
+
+import Carousel from "./Carousel";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,13 +45,25 @@ function App() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Link
+            <a href="/" className="nav-link nonlink">
+              The Link
+            </a>
           </Typography>
-          <Button color="inherit">Login</Button>
+          {/* <Button color="inherit">Login</Button> */}
         </Toolbar>
       </AppBar>
       <Container maxWidth="sm">
-        <Versus/>
+        <Router>
+          <div>
+            <Switch>
+              <Route path="//" component={Carousel} />
+              <Route path="/draw/:roomid" component={Room} />
+              <Route path="/draw" component={Room} />
+              <Route path="/latte/:roomid" component={Room} />
+              <Route path="/latte" component={Room} />
+            </Switch>
+          </div>
+        </Router>
       </Container>
     </React.Fragment>
   );
