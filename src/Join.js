@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { db, setGuestSdp } from "./db";
 import wtfRtc from "wtf-rtc";
 import PinInput from "react-pin-input";
-
 export class Join extends Component {
   constructor() {
     super();
@@ -61,7 +60,7 @@ export class Join extends Component {
   render() {
     return (
       <div>
-        {!this.props.noInputs && (
+        {!this.props.noInputs ? (
           <React.Fragment>
             <PinInput
               length={6}
@@ -77,6 +76,8 @@ export class Join extends Component {
         <br/> */}
             {this.state.loading && "linking..."}
           </React.Fragment>
+        ):(
+          "linking..."
         )}
       </div>
     );

@@ -7,11 +7,13 @@ import { db, setHostSdp, listenOnRoom } from "./db";
 import QRCode from "react-qr-code";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import Robots from "./Robots";
 
 export class Room extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      host: true,
       sdp: null,
       dataChannel: null,
       offerResult: null,
@@ -21,11 +23,11 @@ export class Room extends Component {
   }
 
   componentDidMount() {
-    var roomKey = localStorage.getItem("link_2.roomkey");
-    roomKey = roomKey || ("" + Math.random()).substring(2, 8);
-    if (!localStorage.getItem("link_2.roomkey")) {
-      localStorage.setItem("link_2.roomkey", roomKey);
-    }
+   // var roomKey = localStorage.getItem("link_2.roomkey");
+    var roomKey = roomKey || ("" + Math.random()).substring(2, 8);
+    // if (!localStorage.getItem("link_2.roomkey")) {
+    //   localStorage.setItem("link_2.roomkey", roomKey);
+    // }
     var rtc = wtfRtc("solarsailer", {
       iceServers: [
         { urls: "stun:stun.l.google.com:19302" },
@@ -72,7 +74,9 @@ export class Room extends Component {
   render() {
     let match = this.props.match.params.roomid;
     let appId = this.props.location.pathname.split("/")[1];
-    let shareURL = `${window.location.origin}/#${appId}/${this.state.roomKey}`;
+    let shareURL = `${window.location.href.split("#")[0]}#${appId}/${
+      this.state.roomKey
+    }`;
     return (
       <React.Fragment>
         {this.state.dataChannel == null && (
@@ -87,6 +91,10 @@ export class Room extends Component {
               <Tab label="Host"></Tab>
               <Tab label="Join"></Tab>
             </Tabs>
+            <div style={{ textAlign: "center" }}>
+              <br />
+              {this.state.sdp == null && "generating id.."}
+            </div>
             {this.state.tab == 0 && (
               <React.Fragment>
                 <br />
@@ -96,7 +104,7 @@ export class Room extends Component {
                     noInputs
                     sdp={this.state.sdp}
                     saveDataChannel={dataChannel => {
-                      this.setState({ dataChannel });
+                      this.setState({ dataChannel, host: false });
                     }}
                   />
                 ) : (
@@ -127,7 +135,7 @@ export class Room extends Component {
                 match={match}
                 sdp={this.state.sdp}
                 saveDataChannel={dataChannel => {
-                  this.setState({ dataChannel });
+                  this.setState({ dataChannel, host: false });
                 }}
               />
             )}
@@ -137,9 +145,27 @@ export class Room extends Component {
         {this.state.dataChannel && (
           <React.Fragment>
             {appId == "draw" && (
-              <SolarSailer dataChannel={this.state.dataChannel} />
+              <SolarSailer
+              roomKey={this.state.roomKey}
+                host={this.state.host}
+                dataChannel={this.state.dataChannel}
+              />
             )}
-            {appId == "latte" && <Latte dataChannel={this.state.dataChannel} />}
+            {appId == "latte" && (
+              <Latte
+              roomKey={this.state.roomKey}
+                host={this.state.host}
+                dataChannel={this.state.dataChannel}
+              />
+            )}
+            {appId == "robots" && (
+              <Robots
+              settings={{W:7,H:11}}
+              roomKey={this.state.roomKey}
+                host={this.state.host}
+                dataChannel={this.state.dataChannel}
+              />
+            )}
           </React.Fragment>
         )}
       </React.Fragment>

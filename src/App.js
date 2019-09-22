@@ -45,18 +45,20 @@ function App() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            <a href="/" className="nav-link nonlink">
-              The Link
+            <a href={window.location.href.split("#")[0]} className="nav-link nonlink pixel">
+              Link
             </a>
           </Typography>
           {/* <Button color="inherit">Login</Button> */}
         </Toolbar>
       </AppBar>
-      <Container maxWidth="sm">
+      
         <Router>
           <div>
             <Switch>
               <Route path="//" component={Carousel} />
+              <Route path="/robots/:roomid" component={Room} />
+              <Route path="/robots" component={Room} />
               <Route path="/draw/:roomid" component={Room} />
               <Route path="/draw" component={Room} />
               <Route path="/latte/:roomid" component={Room} />
@@ -64,7 +66,7 @@ function App() {
             </Switch>
           </div>
         </Router>
-      </Container>
+  
     </React.Fragment>
   );
 }
