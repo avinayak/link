@@ -1,12 +1,12 @@
 {
   "name": "The Link",
   "short_name": "Link",
-  "theme_color": "#f3218c",
+  "theme_color": "#ffffff",
   "background_color": "#ffffff",
-  "display": "minimal-ui",
+  "display": "fullscreen",
   "orientation": "portrait",
-  "Scope": "/",
-  "start_url": "/",
+  "Scope": "/link",
+  "start_url": "/link",
   "icons": [
     {
       "src": "images/icons/icon-72x72.png",
