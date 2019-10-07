@@ -1,10 +1,12 @@
 body {
-  background: #34495e;
+  background: #ffffff !important;
+  
 }
 
 .nonlink{
   text-decoration: none;
-  color: white;
+  font-family: 'Varela Round', sans-serif !important;
+  color: #000;
   }
 
   .centered {
@@ -19,13 +21,4 @@ body {
     50% {
       opacity: 0;
     }
-  }
-
-  @font-face {
-    font-family: 'pixel';
-    src: url('/pixel.ttf') format('truetype'); 
-  }
-
-  .pixel {
-    font-family: 'pixel'
   }

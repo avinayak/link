@@ -34,8 +34,8 @@ function App() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar elevation={0.9} border={1} position="static">
+        <Toolbar >
           <IconButton
             edge="start"
             className={classes.menuButton}
@@ -57,6 +57,8 @@ function App() {
           <div>
             <Switch>
               <Route path="//" component={Carousel} />
+              <Route path="/pong/:roomid" component={Room} />
+              <Route path="/pong" component={Room} />
               <Route path="/robots/:roomid" component={Room} />
               <Route path="/robots" component={Room} />
               <Route path="/draw/:roomid" component={Room} />

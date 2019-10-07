@@ -17,7 +17,7 @@ export class Robots extends Component {
       let data = JSON.parse(event.data);
 
       if (data.from !== this.props.roomKey) {
-        console.log("received", data);
+        
         this.setState({
           turn: !this.state.turn,
           x: data.payload.x,
@@ -29,7 +29,7 @@ export class Robots extends Component {
 
   sendMove = cell => {
     let data = { payload: cell, from: this.props.roomKey, type: "data" };
-    console.log("sending", data);
+    
     this.props.dataChannel.send(JSON.stringify(data));
     this.setState({ turn: !this.state.turn });
   };
@@ -46,13 +46,13 @@ export class Robots extends Component {
     let turn = 0;
     let networkTurn = 0;
     let progressHeight = 15;
-    let colors = ["#55b2e0", "#FF4301"];
-    let robotRadius = cellSpacing * 0.38;
+    let colors = ["#ffffff","#111111"];//["#55b2e0", "#FF4301"];
+    let robotRadius = cellSpacing * 0.36;
     let marginX =
       p.windowWidth < p.windowHeight ? 10 : (width - WIDTH * cellSpacing) / 2;
     let marginY = 10;
     let height = cellSpacing * HEIGHT + marginY + progressHeight;
-    let subSpacing = cellSpacing * 0.2;
+    let subSpacing = cellSpacing * 0.21;
     let easing = 0.5;
     let grid = [];
     let opx = -1;
@@ -202,7 +202,9 @@ export class Robots extends Component {
       self.destinationY = y;
       self.color = color;
       self.show = () => {
-        p.noStroke();
+        p.smooth();
+        p.stroke(11,11,11);
+        p.strokeWeight(2)
         p.fill(colors[self.color]);
         p.ellipse(self.x, self.y, robotRadius);
       };
@@ -290,7 +292,7 @@ export class Robots extends Component {
     p.mouseClicked = () => {
       let cell = pixelToGrid(p.mouseX, p.mouseY);
       
-      if (isLegalCell(cell) && !isExploding() && networkTurn) {
+      if (isLegalCell(cell) && !isExploding() && networkTurn && getUnstableCells().length==0) {
         selfPlayed = true;
         play(cell, selfcolor);
         song.play();
@@ -301,7 +303,7 @@ export class Robots extends Component {
     };
 
     let drawProgress = () => {
-      let progOffset = 14;
+      let progOffset = 12;
       p.fill(255);
       p.noStroke()
       p.rect(
@@ -329,26 +331,17 @@ export class Robots extends Component {
     };
 
     p.draw = function() {
-      p.smooth();
+      
       p.strokeWeight(1);
       //p.translate(-width / 2, -height / 2);
 
-      if (isGameOver) {
-        p.background(0x11, 0x1c, 0x31, 2);
-
-        p.fill(255);
-        p.textSize(22);
-        p.text(networkTurn == 0 ? "You won! :)👏 " : "You lost :'|", 10, 60);
+  
+        p.background("#e6e6e6");
         p.textSize(32);
-        p.textFont(font);
-        p.text("Game Over", 10, 30);
-      } else {
-        p.background("#111C31");
-        p.textSize(32);
-        p.stroke(255, 255, 255, 128);
-      }
-        //drawLines();
-        drawDots();
+        p.stroke(128);
+    
+        drawLines();
+        //drawDots();
         drawProgress();
         for (var i = 0; i < HEIGHT; i++) {
           for (var j = 0; j < WIDTH; j++) {
@@ -364,6 +357,18 @@ export class Robots extends Component {
         }
       
       calculateScore();
+      if (isGameOver) {
+        p.push()
+        p.translate(width / 2, height / 2);
+        p.textAlign(p.CENTER);
+        p.background(255, 255, 255, 200);
+        p.fill(255);
+        p.textSize(32);
+        p.text("Game Over", 0, 0);
+        p.textSize(22);
+        p.text(networkTurn == 0 ? "🥳🎉You won!👏🎆" : "😔 You lost 😢", 0, 30);
+        p.pop()
+      }
     };
     let selfcolor = 0;
     let opponentcolor = 1;
@@ -386,7 +391,7 @@ export class Robots extends Component {
   };
   render() {
     return (
-      <div style={{ height: window.screen.height - 56, background: "#111C31" }}>
+      <div style={{ position:'fixed', height:'100%', background: "#e6e6e6" }}>
         <P5Wrapper
           settings={this.props.settings}
           host={this.props.host}
@@ -396,13 +401,13 @@ export class Robots extends Component {
           opx={this.state.x}
           opy={this.state.y}
         />
-        <div style={{ textAlign: "center", color: "white" }}>
+        <div style={{ textAlign: "center", color: "#222" }}>
           {this.state.turn ? (
-            <tt style={{ fontSize: 18 }} className="blink_me">
+            <tt className="blink_me">
               Your turn
             </tt>
           ) : (
-            <small>Waiting for opponent to move</small>
+            <tt>Waiting for opponent to move</tt>
           )}
         </div>
       </div>

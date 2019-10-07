@@ -11,10 +11,10 @@ import { orange } from '@material-ui/core/colors';
 
 
 const outerTheme = createMuiTheme({
-    shadows:["none"],
+
     palette: {
       primary: {
-        main: '#000000',
+        main: '#ffffff',
       },
     },
   });

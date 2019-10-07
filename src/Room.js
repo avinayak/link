@@ -8,6 +8,7 @@ import QRCode from "react-qr-code";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Robots from "./Robots";
+import Pong from "./Pong";
 
 export class Room extends Component {
   constructor(props) {
@@ -23,8 +24,8 @@ export class Room extends Component {
   }
 
   componentDidMount() {
-   // var roomKey = localStorage.getItem("link_2.roomkey");
-    var roomKey = roomKey || ("" + Math.random()).substring(2, 8);
+  // var roomKey = localStorage.getItem("link_2.roomkey");
+   var  roomKey = roomKey || ("" + Math.random()).substring(2, 8);
     // if (!localStorage.getItem("link_2.roomkey")) {
     //   localStorage.setItem("link_2.roomkey", roomKey);
     // }
@@ -84,8 +85,8 @@ export class Room extends Component {
             <Tabs
               value={this.state.tab}
               onChange={(e, tab) => this.setState({ tab })}
-              indicatorColor="primary"
-              textColor="primary"
+              inkBarContainerStyle={{background: '#111', color: "#fff"}}
+              textColor="#111"
               centered
             >
               <Tab label="Host"></Tab>
@@ -146,22 +147,30 @@ export class Room extends Component {
           <React.Fragment>
             {appId == "draw" && (
               <SolarSailer
-              roomKey={this.state.roomKey}
+                roomKey={this.state.roomKey}
                 host={this.state.host}
                 dataChannel={this.state.dataChannel}
               />
             )}
             {appId == "latte" && (
               <Latte
-              roomKey={this.state.roomKey}
+                roomKey={this.state.roomKey}
                 host={this.state.host}
                 dataChannel={this.state.dataChannel}
               />
             )}
             {appId == "robots" && (
               <Robots
-              settings={{W:7,H:11}}
-              roomKey={this.state.roomKey}
+                settings={{ W: 7, H: 11 }}
+                roomKey={this.state.roomKey}
+                host={this.state.host}
+                dataChannel={this.state.dataChannel}
+              />
+            )}
+            {appId == "pong" && (
+              <Pong
+                settings={{ W: 7, H: 11 }}
+                roomKey={this.state.roomKey}
                 host={this.state.host}
                 dataChannel={this.state.dataChannel}
               />
